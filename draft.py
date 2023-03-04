@@ -1,10 +1,11 @@
-nested_list = [
-    ['a', 'b', 'c'],
-    ['d', 'e', 'f', 'h', False],
-    [1, 2, None],
-]
+list_of_lists_1 = [
+        ['a', 'b', 'c'],
+        ['d', 'e', 'f', 'h', False],
+        [1, 2, None]
+    ]
 
-
+# ###############  ИТЕРАТОР  ###################
+#
 class FlatIterator:
 
     def __init__(self, lst):
@@ -23,30 +24,49 @@ class FlatIterator:
             return res
         else:
             raise StopIteration
-
-
-# fi = FlatIterator(nested_list)
-
-# for item in FlatIterator(nested_list):
-    # print(item)
-
-
-
-
-# flat_list = [item for item in FlatIterator(nested_list)]
 #
-# print(flat_list)
+#
+# def open_list(list_):
+#     for item in FlatIterator(list_):
+#         print(item)
+
+def test_1():
+
+    for flat_iterator_item, check_item in zip(
+            FlatIterator(list_of_lists_1),
+            ['a', 'b', 'c', 'd', 'e', 'f', 'h', False, 1, 2, None]
+    ):
+
+        assert flat_iterator_item == check_item
+
+    assert list(FlatIterator(list_of_lists_1)) == ['a', 'b', 'c', 'd', 'e', 'f', 'h', False, 1, 2, None]
 
 
-nested_list = [
-    ['a', 'b', 'c'],
-    ['d', 'e', 'f', 'h', False],
-    [1, 2, None],
-]
+# def horizon_list(list_):
+#     flat_list = [item for item in FlatIterator(list_)]
+#     print(flat_list)
 
-for i in range(0, len(nested_list)):
-    # print(nested_list[i])
-    for j in range(0, len(nested_list[i])):
-        print(nested_list[i][j])
+###############  ГЕНЕРАТОР  ###################
+
+# def flat_generator(lst):
+#     for i in range(0, len(lst)):
+#         for j in range(0, len(lst[i])):
+#             yield lst[i][j]
+#
+#
+# def open_list_gen(lst):
+#     for item in flat_generator(lst):
+#         print(item)
 
 
+if __name__ == '__main__':
+
+    # print('\nЗадание 1\n')
+    # open_list(list_of_lists_1)
+    # print(f'{"*" * 50}\n')
+    # horizon_list(list_of_lists_1)
+
+    # print('\nЗадание 2\n')
+    # open_list_gen(list_of_lists_1)
+
+    print(test_1())
