@@ -12,6 +12,7 @@ list_of_lists_2 = [
         ['d', 'e', [['f'], 'h'], False],
         [1, 2, None, [[[[['!']]]]], []]
     ]
+
 ###############  ИТЕРАТОР  ###################
 
 
@@ -35,13 +36,13 @@ class FlatIterator:
             raise StopIteration
 
 
-def open_list(list_):
-    for item in FlatIterator(list_):
+def open_list(lst):
+    for item in FlatIterator(lst):
         print(item)
 
 
-def horizon_list(list_):
-    flat_list = [item for item in FlatIterator(list_)]
+def horizon_list(lst):
+    flat_list = [item for item in FlatIterator(lst)]
     print(flat_list)
 
 
@@ -76,6 +77,40 @@ def open_list_gen(lst):
         print(item)
 
 
+def flat_generator_2(lst):
+    for i in range(0, len(lst)):
+        if isinstance(lst[i], list):
+            for j in range(0, len(lst[i])):
+                if isinstance(lst[i][j], list):
+                    for k in range(0, len(lst[i][j])):
+                        if isinstance(lst[i][j][k], list):
+                            for t in range(0, len(lst[i][j][k])):
+                                if isinstance(lst[i][j][k][t], list):
+                                    for s in range(0, len(lst[i][j][k][t])):
+                                        if isinstance(lst[i][j][k][t][s], list):
+                                            for l in range(0, len(lst[i][j][k][t][s])):
+                                                if isinstance(lst[i][j][k][t][s][l], list):
+                                                    for m in range(0, len(lst[i][j][k][t][s][l])):
+                                                        yield lst[i][j][k][t][s][l][m]
+                                                else:
+                                                    yield lst[i][j][k][t][s][l]
+                                        else:
+                                            yield lst[i][j][k][t][s]
+                                else:
+                                    yield lst[i][j][k][t]
+                        else:
+                            yield lst[i][j][k]
+                else:
+                    yield lst[i][j]
+        else:
+            yield lst[i]
+
+
+def open_list_gen_2(lst):
+    for item in flat_generator_2(lst):
+        print(item)
+
+
 def test_2(lst):
     for flat_iterator_item, check_item in zip(
             flat_generator(lst),
@@ -88,11 +123,11 @@ def test_2(lst):
 
 def test_4(lst):
     for flat_iterator_item, check_item in zip(
-            flat_generator(lst),
+            flat_generator_2(lst),
             ['a', 'b', 'c', 'd', 'e', 'f', 'h', False, 1, 2, None, '!']
     ):
         assert flat_iterator_item == check_item
-    assert list(flat_generator(lst)) == ['a', 'b', 'c', 'd', 'e', 'f', 'h', False, 1, 2, None, '!']
+    assert list(flat_generator_2(lst)) == ['a', 'b', 'c', 'd', 'e', 'f', 'h', False, 1, 2, None, '!']
     assert isinstance(flat_generator(lst), types.GeneratorType)
 
 if __name__ == '__main__':
@@ -108,10 +143,10 @@ if __name__ == '__main__':
     open_list_gen(list_of_lists_1)
     test_2(list_of_lists_1)
 
-    print('\nЗадание 3\n')
-    open_list_gen(list_of_lists_2)
-    test_3(list_of_lists_2)
+    # print('\nЗадание 3\n')
+    # open_list(list_of_lists_2)
+    # test_3(list_of_lists_2)
 
     print('\nЗадание 4\n')
-    open_list_gen(list_of_lists_2)
+    open_list_gen_2(list_of_lists_2)
     test_4(list_of_lists_2)
